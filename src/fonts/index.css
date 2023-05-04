@@ -13,3 +13,122 @@
   font-style: normal;
   font-display: swap;
 }
+
+nav.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+ 
+ 
+}
+
+.header__links {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.header__links a {
+  text-decoration: none;
+  color: #000;
+  font-size: 0.9rem;
+  font-weight: 400;
+  font-family: "Inter";
+  text-transform: uppercase;
+}
+
+main.mainContainer {
+  display: flex;
+  flex-direction: column;
+  padding: 1.2rem;
+  margin: 12px;
+  gap: 4rem;
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid black;
+  padding: 12px;
+
+  border-radius: 12px;
+ 
+}
+
+.hero__content {
+  padding: 18px;
+}
+
+.product-box {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid black;
+  padding: 12px;
+  border-radius: 12px;
+}
+
+.product-container{
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  padding: 12px;
+  margin: 0 auto;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.product-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 2px solid black;
+  border-bottom: 4px solid black;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: "Inter";
+  font-weight: 600;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.product-image:hover {
+  border: 2px solid black;
+  border-bottom: 2px solid black;
+ 
+  animation: ease-linear 300s ;
+}
+
+img.small-image {
+  width: 200px;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.product-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.product-button{
+  padding: 12px;
+  border-radius: 10px;
+  border: 2px solid black;
+  background-color: #fff;
+  font-family: "Inter";
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.product-price-btn {
+  background: black;
+  color: white;
+}
