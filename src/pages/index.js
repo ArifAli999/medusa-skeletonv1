@@ -2,13 +2,38 @@ import Head from "next/head"
 import Image from "next/image"
 import { useRouter } from "next/router"
 import * as React from "react"
-import { Button, Card, Flex, Text } from "theme-ui"
-import CodeSnippet from "../components/code-snippet"
-import Layout from "../components/layout/layout"
+import { Button, Card, Flex, Text } from "theme-ui";
 import { client } from "../utils/client"
+import { useCart } from "medusa-react";
+import useCartStore from "../../store/userCart";
+import Header from "../components/header/header";
+
 
 const IndexPage = ({ product }) => {
   const router = useRouter()
+  const { cart, createCart } = useCart();
+  const { cartId, setCartId } = useCartStore();
+
+  React.useEffect(() => {
+    if (!localStorage.getItem("cart_id")) {
+      handleCreateCart();
+    }
+    setCartId(localStorage.getItem("cart_id"));
+  }, []);
+
+  const handleCreateCart = () => {
+    createCart.mutate(
+      {},
+      {
+        onSuccess: ({ cart }) => {
+          localStorage.setItem("cart_id", cart.id);
+        },
+      }
+    );
+  }
+
+
+
 
   return (
     <main className="mainContainer">
@@ -17,17 +42,7 @@ const IndexPage = ({ product }) => {
         <meta name="description" content="One-page checkout" />
       </Head>
 
-      <nav className="header">
-        <div className='header__logo'>
-          <h1 className='text-mb'>Store</h1>
-        </div>
-
-        <div className='header__links'>
-          <a href='#'>Products</a>
-          <a href='#'>Categories</a>
-          <a href='#'>Profile</a>
-        </div>
-      </nav>
+      <Header />
 
 
       <div className="hero">
