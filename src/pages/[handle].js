@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import Layout from "../components/layout"
 import Steps from "../components/steps"
 import { client } from "../utils/client"
-import Header from "../components/header/header";
+import Header from "../components/header/Header";
 import { useGetCart } from "medusa-react";
 import useCartStore from "../../store/userCart";
 
@@ -12,6 +12,8 @@ const ProductPage = ({ product, regions }) => {
   const [country, setCountry] = useState(region?.countries?.[0].iso_2 || "")
   const [size, setSize] = useState([]);
   const [color, setColor] = useState();
+  const [type, setSelectedType] = useState();
+  const [userSize, setUserSize] = useState();
   const { cartId } = useCartStore();
   const { cart, isLoading } = useGetCart(cartId);
   console.log(cart);
@@ -31,12 +33,36 @@ const ProductPage = ({ product, regions }) => {
 
   const generateSizes = () => {
     const sizes = product.variants.map(variant => variant.options[0].value);
-    const colors = product.variants.map(variant => variant.options[1].value);
+    const colors = product.variants.map(variant => variant.options[1]?.value);
     const uniqueColors = [...new Set(colors)];
     const uniqueSizes = [...new Set(sizes)];
     console.log(uniqueColors);
     setSize(uniqueSizes);
     setColor(uniqueColors);
+  }
+
+  function handleButtonClick(sz) {
+    let variant = '';
+    switch (sz) {
+      case 'S':
+        variant = product.variants[0];
+        break;
+      case 'M':
+        variant = product.variants[1];
+        break;
+      case 'L':
+        variant = product.variants[2];
+        break;
+      case 'XL':
+        variant = product.variants[3];
+        break;
+      default:
+        break;
+
+    }
+    setSelectedType(variant);
+    setUserSize(sz);
+    console.log(variant);
   }
 
   return (
@@ -73,14 +99,17 @@ const ProductPage = ({ product, regions }) => {
 
                   <div className='size-boxes'>
                     {size.map((size, index) => (
-                      <div className='size-box' key={index}>
-                        <p className='size-text'>{size}</p>
+                      <div className={`${userSize === size ? 'size-box selected' : 'size-box'}`} key={index} onClick={() => handleButtonClick(size)}>
+
+                        <div className={`${userSize === size ? 'size-text selected' : 'size-text'}`}
+                          onClick={() => handleButtonClick(size)}
+                        >{size}</div>
                       </div>
                     ))}
                   </div>
 
                   <div className='size-boxes'>
-                    {color && color.map((size, index) => (
+                    {color && color.length > 1 && color.map((size, index) => (
                       <div className='size-box' key={index}>
                         <p className='size-text'>{size}</p>
                       </div>
@@ -96,7 +125,17 @@ const ProductPage = ({ product, regions }) => {
           </div>
 
 
+          <div className='product-btns'>
+            <div className="add-to-cart-btn">
+              <p className='text-mb'>Add to Cart</p>
+            </div>
+            <div className="buy-now-btn">
+              <p className='text-mb'>Buy Now</p>
+            </div>
+          </div>
         </div>
+
+
       </div>
 
     </main>
