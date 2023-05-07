@@ -1,45 +1,48 @@
-import Head from "next/head"
+import Head from "next/head";
 import React, { useState, useEffect } from "react";
-import Layout from "../components/layout"
-import Steps from "../components/steps"
-import { client } from "../utils/client"
+import Layout from "../components/layout";
+import Steps from "../components/steps";
+import { client } from "../utils/client";
 import Header from "../components/header/Header";
 import { useGetCart } from "medusa-react";
 import useCartStore from "../../store/userCart";
+import { useCreateLineItem } from "medusa-react";
+import { useQueryClient } from 'react-query';
+import addItem from "../utils/add-item";
+
 
 const ProductPage = ({ product, regions }) => {
-  const [region, setRegion] = useState(regions?.[0] || null)
-  const [country, setCountry] = useState(region?.countries?.[0].iso_2 || "")
   const [size, setSize] = useState([]);
   const [color, setColor] = useState();
   const [type, setSelectedType] = useState();
   const [userSize, setUserSize] = useState();
+  const [userColor, setUserColor] = useState();
+  const [error, setError] = useState(false);
   const { cartId } = useCartStore();
   const { cart, isLoading } = useGetCart(cartId);
-  console.log(cart);
-  // console.log(cart);
+  const createLineItem = useCreateLineItem(cartId);
+
+  const queryClient = useQueryClient();
+
+
+
+
+
 
 
   useEffect(() => {
     generateSizes();
-  }, [])
+  }, []);
 
-
-  const handleRegionChange = (regId, countryCode) => {
-    const selected = regions.find(r => r.id === regId)
-    setCountry(countryCode)
-    setRegion(selected)
-  }
 
   const generateSizes = () => {
     const sizes = product.variants.map(variant => variant.options[0].value);
     const colors = product.variants.map(variant => variant.options[1]?.value);
     const uniqueColors = [...new Set(colors)];
     const uniqueSizes = [...new Set(sizes)];
-    console.log(uniqueColors);
     setSize(uniqueSizes);
     setColor(uniqueColors);
-  }
+  };
 
   function handleButtonClick(sz) {
     let variant = '';
@@ -62,8 +65,56 @@ const ProductPage = ({ product, regions }) => {
     }
     setSelectedType(variant);
     setUserSize(sz);
-    console.log(variant);
+    setError(false);
+
   }
+
+  function handleColorPick(c) {
+    setUserColor(c);
+  }
+
+
+  async function addToCart() {
+    if (size.length > 0 && !userSize) {
+      setError(true);
+    }
+
+    if (color && color.length > 1 && !userColor) {
+      alert('Please select a color');
+    }
+
+
+    if (userSize && userColor) {
+      const userSelection = `${userSize} / ${userColor}`;
+      const variant = product.variants.find(variant => variant.title.trim() === userSelection.trim());
+      try {
+        await addItem(createLineItem, cartId, variant, 1, cart);
+        queryClient.invalidateQueries();
+      } catch (error) {
+        console.log('Failed to add item to cart', error);
+      }
+
+    }
+
+    if (userSize && !userColor) {
+      const variant = product.variants.find(variant => variant.title.trim() === userSize.trim());
+      try {
+        await addItem(createLineItem, cartId, variant, 1, cart);
+        queryClient.invalidateQueries();
+      } catch (error) {
+        console.log('Failed to add item to cart', error);
+      }
+    }
+  }
+
+  function testQuery() {
+    queryClient.invalidateQueries();
+
+  }
+
+
+  if (isLoading) return <div>Loading...</div>;
+
 
   return (
     <main className="mainContainer">
@@ -77,15 +128,18 @@ const ProductPage = ({ product, regions }) => {
 
 
         <div className="product-details">
-          <div className='flex row items-center justify-between'>
-            <h2 className="product-title">{product.title}</h2>
-            <p className="prooduct-price"> ${product.variants[0].prices[0].amount}</p>
+          <div className='product-title-top'>
+            <div className="flex row items-center justify-between">
+              <h2 className="product-title">{product.title}</h2>
+              <p className="prooduct-price"> ${product.variants[0].prices[0].amount}</p>
+            </div>
+            <div className="product-desc">
+              <p>{product.description}</p>
+            </div>
           </div>
 
 
-          <div className="product-desc">
-            <p>{product.description}</p>
-          </div>
+
 
 
 
@@ -95,6 +149,7 @@ const ProductPage = ({ product, regions }) => {
             {product.options.map((option, index) => (
               index === 0 ?
                 <div className='option-pill' key={index}>
+                  {error ? 'Please select a size' : null}
 
 
                   <div className='size-boxes'>
@@ -109,9 +164,9 @@ const ProductPage = ({ product, regions }) => {
                   </div>
 
                   <div className='size-boxes'>
-                    {color && color.length > 1 && color.map((size, index) => (
-                      <div className='size-box' key={index}>
-                        <p className='size-text'>{size}</p>
+                    {color && color.length > 1 && color.map((c, index) => (
+                      <div className={`${userColor === c ? 'size-box selected' : 'size-box'}`} key={index} onClick={() => handleColorPick(c)}>
+                        <p className={`${userColor === c ? 'size-text selected' : 'size-text'}`}>{c}</p>
                       </div>
                     ))}
                   </div>
@@ -121,48 +176,56 @@ const ProductPage = ({ product, regions }) => {
 
                 </div> : null
             ))}
-
           </div>
 
 
           <div className='product-btns'>
-            <div className="add-to-cart-btn">
+            <div className="add-to-cart-btn" onClick={addToCart}>
               <p className='text-mb'>Add to Cart</p>
             </div>
             <div className="buy-now-btn">
               <p className='text-mb'>Buy Now</p>
             </div>
+
+            <div className="buy-now-btn" onClick={testQuery}>
+              <p className='text-mb'>Buy Now</p>
+            </div>
           </div>
+
         </div>
+
+
+
+
 
 
       </div>
 
     </main>
-  )
-}
+  );
+};
 
 export async function getStaticPaths() {
-  const { products } = await client.products.list()
+  const { products } = await client.products.list();
 
   const paths = products
     .map(product => ({
       params: { handle: product.handle },
     }))
-    .filter(p => !!p.params.handle)
+    .filter(p => !!p.params.handle);
 
-  return { paths, fallback: false }
+  return { paths, fallback: false };
 }
 
 export async function getStaticProps({ params }) {
-  const response = await client.products.list({ handle: params.handle })
-  const { regions } = await client.regions.list()
+  const response = await client.products.list({ handle: params.handle });
+  const { regions } = await client.regions.list();
 
   // handles are unique, so we'll always only be fetching a single product
-  const [product] = response.products
+  const [product] = response.products;
 
   // Pass post data to the page via props
-  return { props: { product, regions } }
+  return { props: { product, regions } };
 }
 
-export default ProductPage
+export default ProductPage;
