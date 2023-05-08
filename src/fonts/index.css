@@ -51,6 +51,7 @@ body {
   min-height: 100vh;
   text-rendering: optimizeSpeed;
   line-height: 1.5;
+  background-color: #fff;
 }
 
 /* A elements that don't have a class get default styles */
@@ -361,4 +362,79 @@ a.cart-indi {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+
+
+.cartHeaderItem {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+}
+
+.cartItems {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+ 
+  width: 100%;
+  align-items: center;
+  padding: 1rem;
+}
+
+.cartItem {
+  display: flex;
+  flex-direction: row;
+  background-color: #fff;
+  align-items: center;
+  border: 2px solid #000;
+  border-radius: 12px;
+  width: 100%;
+  border-bottom: 3px solid #000;
+}
+
+.cartItemImg {
+  max-width:130px;
+  max-height: 150px;
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+
+}
+
+.cartItemDetails {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 1rem;
+  align-items: center;
+}
+
+.cartItemPrice {
+  font-family: "Inter";
+  font-weight:200;
+  font-size: 0.782rem;
+  color: #000;
+  display: flex;
+  flex-direction:column;
+  align-items: flex-end;
+  gap: 0.5rem;
+
+
+  
+}
+
+span.sub-gray {
+  color: #ccc;
+  font-weight: 400;
+  font-size: 0.782rem;
+}
+
+h3.itemPrice {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }

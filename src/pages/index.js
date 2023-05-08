@@ -6,8 +6,7 @@ import { Button, Card, Flex, Text } from "theme-ui";
 import { client } from "../utils/client"
 import { useCart } from "medusa-react";
 import useCartStore from "../../store/userCart";
-import Header from "../components/header/header";
-
+import Header from "../components/header/Header";
 
 const IndexPage = ({ product }) => {
   const router = useRouter()
