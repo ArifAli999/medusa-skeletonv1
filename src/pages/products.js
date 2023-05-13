@@ -14,7 +14,7 @@ function products() {
       <Header />
 
 
-      <div className='product-container'>
+      <div className='flex gap-10 flex-wrap mx-auto items-center justify-center'>
         {products?.map((product) => (
           <ProductBox key={product.id} title={product.title} variants={product.variants} product={product} />
         ))}

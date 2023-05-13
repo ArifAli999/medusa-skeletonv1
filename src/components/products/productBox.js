@@ -14,21 +14,21 @@ function ProductBox({ id, title, variants, product }) {
 
 
     return (
-        <div key={id} className='product' onClick={handleClick}>
 
 
-            <div className='product-image'>
 
-                <img src={product.images[0] && product.images[0].url} alt={title} className='small-image' />
+        <div key={id} className='flex flex-col gap-2 cursor-pointer' onClick={handleClick}>
 
-                <span className='product-price-pill'>
-                    new
-                </span>
 
+            <div className=''>
+                <img src={product.images[0] && product.images[0].url} alt={title} className='small-image rounded-sm' />
+
+
+            </div>
                 <div className='product-buttons '>
 
-                    <h4 className='light-gray-text title-flex'>{title}
-                        <h6 className='lighter'>
+                <h4 className='text-gray-800 font-light antialiased font-sans'>{title}
+                    <h6 className='text-gray-800 font-light antialiased font-sans'>
                             $  {variants[0]?.prices[0].amount / 100}
                         </h6>
 
@@ -38,7 +38,7 @@ function ProductBox({ id, title, variants, product }) {
                     <AiOutlinePlus size={28} color='#FF5722' />
                 </div>
             </div>
-        </div>
+
     );
 }
 
