@@ -6,7 +6,7 @@ import { Button, Card, Flex, Text } from "theme-ui";
 import { client } from "../utils/client"
 import { useCart } from "medusa-react";
 import useCartStore from "../../store/userCart";
-import Header from "../components/header/Header";
+import AppHeader from "../components/header/AppHeader";
 
 const IndexPage = ({ product }) => {
   const router = useRouter()
@@ -41,7 +41,7 @@ const IndexPage = ({ product }) => {
         <meta name="description" content="One-page checkout" />
       </Head>
 
-      <Header />
+      <AppHeader />
 
 
       <div className="hero">

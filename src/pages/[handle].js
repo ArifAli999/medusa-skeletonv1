@@ -3,12 +3,13 @@ import React, { useState, useEffect } from "react";
 import Layout from "../components/layout";
 import Steps from "../components/steps";
 import { client } from "../utils/client";
-import Header from "../components/header/Header";
 import { useGetCart } from "medusa-react";
 import useCartStore from "../../store/userCart";
 import { useCreateLineItem } from "medusa-react";
 import { useQueryClient } from 'react-query';
 import addItem from "../utils/add-item";
+import AppHeader from "../components/header/AppHeader";
+import { AiOutlinePlus } from "react-icons/ai";
 
 
 const ProductPage = ({ product, regions }) => {
@@ -117,89 +118,61 @@ const ProductPage = ({ product, regions }) => {
 
 
   return (
-    <main className="mainContainer">
-      <Header />
+    <main className="w-full h-full bg-white p-6">
+      <AppHeader />
 
-      <div className='productpage'>
-        <div className="product-image-container">
-          <img className='product-img-large'
+      <div className='flex flex-col  xl:flex-row xl:gap-10 mx-auto  min-h-[450p] mt-6 '>
+
+        <div className="bg-red-500 xl:min-w-[550px] xl:max-h-[600px]">
+          <img className='w-full  h-full object-cover'
             src={product.images[0].url} />
         </div>
 
+        <div className="flex flex-col gap-4 relative">
+          <div className="mt-4 ml-2 xl:ml-0 flex flex-col gap-2">
+            <h1 className="text-2xl xl:text-4xl font-light font-sans  tracking-wide">{product.title}</h1>
+            <h2 className="text-xl xl:text-2xl font-light font-sans lowercase tracking-wide">
+              ${product.variants[0].prices[0].amount}
+            </h2>
+          </div>
 
-        <div className="product-details">
-          <div className='product-title-top'>
-            <div className="flex row items-center justify-between">
-              <h2 className="product-title">{product.title}</h2>
-              <p className="prooduct-price"> ${product.variants[0].prices[0].amount}</p>
-            </div>
-            <div className="product-desc">
-              <p>{product.description}</p>
-            </div>
+
+          <div className="mt-4">
+            <p className="text-sm xl:text-base font-thin font-sans tracking-wide text-gray-900">
+              standard audio cable in slimline design. for audio between TX–6 and synthesizers or speakers. sync your pocket operators to OP–1 or use it for trs midi.
+
+              stereo mini jack audio cable
+              shielded, narrow profile, specially designed for teenage engineering devices
+              length: 1200 mms
+
+              <br /><br />
+              stereo mini jack audio cable
+              shielded, narrow profile, specially designed for teenage engineering devices
+              length: 1200 mms
+            </p>
           </div>
 
 
 
-
-
-
-
-
-          <div className="product-options">
-            {product.options.map((option, index) => (
-              index === 0 ?
-                <div className='option-pill' key={index}>
-                  {error ? 'Please select a size' : null}
-
-
-                  <div className='size-boxes'>
-                    {size.map((size, index) => (
-                      <div className={`${userSize === size ? 'size-box selected' : 'size-box'}`} key={index} onClick={() => handleButtonClick(size)}>
-
-                        <div className={`${userSize === size ? 'size-text selected' : 'size-text'}`}
-                          onClick={() => handleButtonClick(size)}
-                        >{size}</div>
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className='size-boxes'>
-                    {color && color.length > 1 && color.map((c, index) => (
-                      <div className={`${userColor === c ? 'size-box selected' : 'size-box'}`} key={index} onClick={() => handleColorPick(c)}>
-                        <p className={`${userColor === c ? 'size-text selected' : 'size-text'}`}>{c}</p>
-                      </div>
-                    ))}
-                  </div>
-
-
-
-
-                </div> : null
-            ))}
+          <div className='flex items-center justify-between mt-4'>
+            <div className='px-4 py-2 border border-gray-400 rounded-md text-gray-600 lowercase cursor-pointer'>Color</div>
+            <div className='px-4 py-2 border border-gray-400 rounded-md text-gray-600 lowercase cursor-pointer'>size</div>
           </div>
 
 
-          <div className='product-btns'>
-            <div className="add-to-cart-btn" onClick={addToCart}>
-              <p className='text-mb'>Add to Cart</p>
-            </div>
-            <div className="buy-now-btn">
-              <p className='text-mb'>Buy Now</p>
-            </div>
 
-            <div className="buy-now-btn" onClick={testQuery}>
-              <p className='text-mb'>Buy Now</p>
+          <div className="absolute bottom-0 w-full">
+            <div className="w-full p-2.5 bg-black text-white font-extralight font-sans text-2xl rounded cursor-pointer hover:opacity-90 transition-all ease-linear duration-150 lowercase flex items-center  justify-between">
+              <span> / Add to cart</span>
+              <AiOutlinePlus size={28} color='#FF5722' />
             </div>
           </div>
-
         </div>
 
 
-
-
-
-
       </div>
+
+
 
     </main>
   );

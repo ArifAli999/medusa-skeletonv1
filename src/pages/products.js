@@ -1,7 +1,7 @@
 import React from 'react';
 import { useProducts } from "medusa-react";
 import ProductBox from '../components/products/productBox';
-import Header from '../components/header/header';
+import Header from '../components/header/AppHeader';
 
 function products() {
   const { products, isLoading } = useProducts({});
