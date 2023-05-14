@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import Layout from "../components/layout";
 import Steps from "../components/steps";
 import { client } from "../utils/client";
-import { useGetCart } from "medusa-react";
+import { useCollections, useGetCart, useProducts } from "medusa-react";
 import useCartStore from "../../store/userCart";
 import { useCreateLineItem } from "medusa-react";
 import { useQueryClient } from 'react-query';
@@ -11,6 +11,7 @@ import addItem from "../utils/add-item";
 import AppHeader from "../components/header/AppHeader";
 import { AiOutlinePlus } from "react-icons/ai";
 import ListComponent from "../components/ui/ListBox";
+
 
 const ProductPage = ({ product, regions }) => {
   const [size, setSize] = useState([]);
@@ -22,6 +23,10 @@ const ProductPage = ({ product, regions }) => {
   const { cartId } = useCartStore();
   const { cart, isLoading } = useGetCart(cartId);
   const createLineItem = useCreateLineItem(cartId);
+  const [featuredProds, setFeaturedProds] = useState([]);
+
+  //console.log(product)
+
 
   const queryClient = useQueryClient();
 
@@ -30,9 +35,23 @@ const ProductPage = ({ product, regions }) => {
 
 
 
+  async function fetchRelatedProducts() {
+    const collection_id = product.collection_id;
+    if (!collection_id) return;
+    const { products } = await client.products.list({
+      collection_id: [collection_id]
+    });
+    const filtered = products.filter(prod => prod.id !== product.id);
+    setFeaturedProds(filtered);
+    console.log(products);
+
+  }
+
+
 
   useEffect(() => {
     generateSizes();
+    fetchRelatedProducts();
   }, []);
 
 
@@ -45,41 +64,17 @@ const ProductPage = ({ product, regions }) => {
     setColor(uniqueColors);
   };
 
-  // function handleButtonClick(sz) {
-  //   let variant = '';
-  //   switch (sz) {
-  //     case 'S':
-  //       variant = product.variants[0];
-  //       break;
-  //     case 'M':
-  //       variant = product.variants[1];
-  //       break;
-  //     case 'L':
-  //       variant = product.variants[2];
-  //       break;
-  //     case 'XL':
-  //       variant = product.variants[3];
-  //       break;
-  //     default:
-  //       break;
 
-  //   }
-  //   setSelectedType(variant);
-  //   setUserSize(sz);
-  //   setError(false);
-  //   console.log('variant', variant);
-
-  // }
 
   function handleButtonClick(sz) {
     if (!sz) throw new Error('No size selected');
     setUserSize(sz);
-    console.log('sz', sz);
+
   }
 
   function handleColorPick(c) {
     setUserColor(c);
-    console.log('c', c)
+
   }
 
 
@@ -111,7 +106,7 @@ const ProductPage = ({ product, regions }) => {
     if (userSize && !userColor) {
       const variant = product.variants.find(variant => variant.title.trim() === userSize.trim());
       try {
-        await addItem(createLineItem, cartId, variant, 1, cart);
+     //   await addItem(createLineItem, cartId, variant, 1, cart);
         queryClient.invalidateQueries();
       } catch (error) {
         console.log('Failed to add item to cart', error);
@@ -132,10 +127,10 @@ const ProductPage = ({ product, regions }) => {
     <main className="w-full h-full bg-white p-6">
       <AppHeader />
 
-      <div className='flex flex-col  xl:flex-row xl:gap-6 mx-auto  min-h-[550px] mt-6  mb-4'>
+      <div className='flex flex-col   xl:flex-row xl:gap-6 mx-auto  xl:max-h-[550px] mt-6  mb-4'>
 
-        <div className="bg-red-500 xl:min-w-[550px] xl:max-h-[600px]">
-          <img className='w-full  h-full object-cover'
+        <div className=" xl:min-w-[550px] xl:max-h-[420px] rounded">
+          <img className='w-full rounded-md  h-full object-cover'
             src={product.images[0].url} />
         </div>
 
@@ -148,7 +143,7 @@ const ProductPage = ({ product, regions }) => {
           </div>
 
 
-          <div className="mt-4">
+          <div className="mt-2">
             <p className="text-sm xl:text-base font-thin font-sans tracking-wide text-gray-900">
               standard audio cable in slimline design. for audio between TX–6 and synthesizers or speakers. sync your pocket operators to OP–1 or use it for trs midi.
 
@@ -164,10 +159,10 @@ const ProductPage = ({ product, regions }) => {
           </div>
 
 
-          <div className="flex flex-col justify-between w-full h-full">
-            <div className='flex items-center justify-between mt-4 xl:mb-0 mb-6'>
-              {color && color.length > 1 ? <ListComponent list={color} handleButtonClick={handleColorPick} /> : null}
-              {size && <ListComponent list={size} handleButtonClick={handleButtonClick} />}
+          <div className="flex flex-col gap-4 w-full h-full">
+            <div className='flex items-center justify-between mt-4 xl:mb-0 mb-2'>
+              {color && color.length > 1 ? <ListComponent list={color} handleButtonClick={handleColorPick} label={'color'} /> : null}
+              {size && <ListComponent list={size} handleButtonClick={handleButtonClick} label={'size'} />}
           </div>
 
 
@@ -175,8 +170,8 @@ const ProductPage = ({ product, regions }) => {
             <div className="">
               <div
                 onClick={addToCart}
-                className="w-full p-2.5 mt-4 bg-black text-white font-extralight font-sans text-2xl rounded cursor-pointer hover:opacity-90 transition-all ease-linear duration-150 lowercase flex items-center  justify-between">
-                <span> /Add</span>
+                className="w-full p-2.5 mt-4 border border-black text-black font-extralight font-sans text-2xl rounded cursor-pointer hover:opacity-90 transition-all ease-linear duration-150 lowercase flex items-center  justify-between">
+                <span className="tracking-wider"> Add to cart</span>
                 <AiOutlinePlus size={28} color='#FF5722' />
               </div>
             </div>
@@ -186,6 +181,31 @@ const ProductPage = ({ product, regions }) => {
 
         </div>
 
+
+      </div>
+
+      <div className="flex flex-col mt-10 mb-4 mx-auto ">
+
+        <h2 className="font-sans font-light text-2xl xl:text-4xl tracking-wide text-center">related</h2>
+
+        <div className="grid xl:grid-cols-3 gap-8 mt-4 mb-4 p-4">
+
+          {featuredProds && featuredProds.map(prod => (
+            <div key={prod.id} className='flex  items-center flex-col gap-2 w-[450px] h-[500px] rounded-md object-cover bg-[#f7f7fa] overflow-hidden'>
+              <h2 className="text-xl mt-6 font-extralight font-sans tracking-wide text-gray-700">{prod.title}</h2>
+              <h2 className="text-xl font-extralight font-sans tracking-wide text-gray-700">${prod.variants[0].prices[0].amount}</h2>
+              <a href={`/${prod.handle}`}>
+                <img className="w-[350px] h-[350px] rounded-md object-cover" src={prod.images[0].url} />
+              </a>
+              <h2 className="text-xl font-extralight font-sans tracking-wide text-gray-700 underline underline-offset-2">explore</h2>
+
+
+            </div>
+          ))}
+
+
+
+        </div>
 
       </div>
 

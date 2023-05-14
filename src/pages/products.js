@@ -6,7 +6,8 @@ import Header from '../components/header/AppHeader';
 function products() {
   const { products, isLoading } = useProducts({});
 
-  console.log(products);
+
+
 
   return (
     <main className="mainContainer">

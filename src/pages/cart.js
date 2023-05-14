@@ -1,7 +1,7 @@
 import React from 'react';
 import useCartStore from '../../store/userCart';
 import { useGetCart } from 'medusa-react';
-import Header from '../components/header/Header';
+import AppHeader from '../components/header/AppHeader';
 
 function UserCart() {
     const { cartId } = useCartStore();
@@ -48,7 +48,7 @@ function UserCart() {
 
     return (
         <main className="mainContainer">
-            <Header />
+            <AppHeader />
 
 
             <div className="cartContainer">
