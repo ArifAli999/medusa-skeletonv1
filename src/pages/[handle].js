@@ -184,11 +184,11 @@ const ProductPage = ({ product, regions }) => {
 
       </div>
 
-      <div className="flex flex-col mt-10 mb-4 mx-auto ">
+      <div className="flex flex-col mt-10 mb-4  ">
 
         <h2 className="font-sans font-light text-2xl xl:text-4xl tracking-wide text-center">related</h2>
 
-        <div className="grid xl:grid-cols-3 gap-8 mt-4 mb-4 p-4">
+        <div className="grid xl:grid-cols-3 gap-8 mt-4 mb-4 p-0">
 
           {featuredProds && featuredProds.map(prod => (
             <div key={prod.id} className='flex  items-center flex-col gap-2 w-[450px] h-[500px] rounded-md object-cover bg-[#f7f7fa] overflow-hidden'>
