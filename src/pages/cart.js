@@ -2,7 +2,9 @@ import React from 'react';
 import useCartStore from '../../store/userCart';
 import { useGetCart } from 'medusa-react';
 import AppHeader from '../components/header/AppHeader';
-import { AiFillDelete, AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
+import { AiFillDelete, AiOutlineClose, AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
+import CartItem from '../components/cart/cartItem';
+import CartTotals from '../components/cart/cartTotals';
 
 function UserCart() {
     const { cartId } = useCartStore();
@@ -24,13 +26,13 @@ function UserCart() {
             let color = splitName[1];
             console.log(size, color);
             return (
-                <div className='cartItemOptions'>
-                    <div className='cartItemOption'>
-                        <h4>{size}</h4>
+                <div className='flex  gap-4  mt-2'>
+                    <div className='border bg-primary border-primary min-w-[60px] max-w-[80px] px-4 flex items-center justify-center rounded-full '>
+                        <h4 className='text-white font-bold truncate'>{size}</h4>
                     </div>
 
-                    <div className='cartItemOption'>
-                        <h4>{color}</h4>
+                    <div className='border bg-primary border-primary min-w-[60px] max-w-[80px] px-4 flex items-center justify-center rounded-full '>
+                        <h4 className='text-white font-bold'>{color}</h4>
                     </div>
                 </div>
             );
@@ -38,9 +40,9 @@ function UserCart() {
         else {
             // means there is no color property in the namme string (eg: 'L')
             return (
-                <div className='cartItemOptions'>
-                    <div className='cartItemOption'>
-                        <h3> {name}</h3>
+                <div className='flex  gap-4  mt-2'>
+                    <div className='border bg-primary border-primary min-w-[60px] max-w-[80px] px-4 flex items-center justify-center rounded-full '>
+                        <h4 className='text-white font-bold truncate'>{name}</h4>
                     </div>
                 </div>
             );
@@ -55,71 +57,54 @@ function UserCart() {
 
 
             <div className='mb-4 w-full flex items-center justify-center'>
-                <h2 className='text-4xl text-center font-thin font-sans text-black'>
+                <h2 className='text-6xl text-center font-thin font-secondary text-black'>
                     shopping cart
                 </h2>
             </div>
 
 
-            <div className='flex xl:flex-row flex-col gap-4'>
+            <div className='flex xl:flex-row flex-col gap-8 relative'>
 
 
                 <div className='xl:w-[85%] gap-4 flex flex-col'>
 
 
-                        {cart?.items.map((item) => (
-                            <div className='border border-gray-400 pr-4 rounded items-center flex flex-row gap-4 relative'>
-                                <div className='xl:max-w-[20%] max-h-[180px]'>
-                                    <img src={item.thumbnail} alt={item.title}
-                                        className=' w-[120px] xl:w-[200px] h-[180px] object-cover ' />
-                                </div>
-
-                                <div className='w-full flex-row flex items-center justify-between relative  h-full'>
-                                    <div className=''>
-                                        <h3 className='
-                                   text-md xl:text-xl font-light font-sans text-black
-                                    flex items-center 
-
-                                    '>{item.title}</h3>
-                                        <h2 className='text-base font-light font-sans text-black'>
-                                        {generateOptions(item.variant)}
-                                        </h2>
-                                    </div>
-
-                                    <div className='flex flex-row items-center gap-2 border p-2 xl:px-1 xl:py-0.5 rounded-full'>
-
-                                        <button className='bg-white rounded-full xl:p-1.5'>
-                                            <AiOutlinePlus color='black' size={22} />
-                                        </button>
-                                        <h3>{item.quantity}</h3>
-                                        <button className='bg-white rounded-full xl:p-1.5'>
-                                            <AiOutlineMinus color='black' size={22} />
-                                        </button>
-                                    </div>
-
-                                    <div className=''>
-
-                                        <h3 className='text-black font-light font-sans text-base'>${item.unit_price / 100}</h3>
-                                    </div>
-
-                                    <div className=' absolute right-0 top-2'>
-
-                                        <AiFillDelete color='#dc4e43c2' size={22} />
-
-                                    </div>
-                                </div>
+                    {cart?.items.map((item, index) => (
+                        <CartItem item={item} generateOptions={generateOptions} key={item.id} />
+                    ))}
 
 
+                </div>
+
+
+
+                <div className=' xl:w-[30%] flex flex-col ml-0 '>
+                    <div className='sticky top-4 right-0'>
+                        <h2 className='font-secondary text-4xl  text-black '>
+                            cart summary
+                        </h2>
+
+                        <div className='flex flex-col gap-4 mt-4'>
+
+                            <CartTotals label={'original price'} value={cart?.subtotal} />
+
+                            <CartTotals label={'discount'} value={cart?.discount_total} />
+
+                            <CartTotals label={'shipping'} value={cart?.shipping_total} />
+
+                            <CartTotals label={'tax & deductions'} value={cart?.tax_total} />
+
+                            <CartTotals label={'total'} value={cart?.total} />
+
+
+                            <div className='w-full min-h-[22px] bg-primary cursor-pointer p-2.5 rounded-md'
+                            >
+                                <h2 className='text-white text-center font-primary text-lg'>
+                                    checkout
+                                </h2>
                             </div>
-                        ))}
-
-
+                        </div>
                     </div>
-
-
-
-                <div className=' xl:w-[30%] bg-gray-100'>
-                    side
                 </div>
 
 

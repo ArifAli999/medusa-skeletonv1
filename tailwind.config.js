@@ -9,8 +9,21 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {},
-  },
-  plugins: [],
+
+
+    extend: {
+      colors: {
+        primary: '#fd5722',
+      },
+
+      fontFamily: {
+        secondary: ['DM Serif Display', 'serif'],
+        primary: ['Raleway', 'sans-serif'],
+      },
+    },
+
+
+    plugins: [],
+  }
 }
 
