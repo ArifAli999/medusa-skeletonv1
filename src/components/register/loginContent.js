@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import loginUser from '../../utils/loginUser';
 
 
-function LoginContent() {
+function LoginContent({ setIsOpen }) {
 
     const { user, setUser } = useAuthStore();
     const createCustomer = useCreateCustomer();
@@ -28,6 +28,7 @@ function LoginContent() {
         if (user) return null;
         if (form.email === '' || form.password === '') return null;
         loginUser(form.email, form.password, setUser, router);
+        setIsOpen(false);
     }
 
 

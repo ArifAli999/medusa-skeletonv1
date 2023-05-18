@@ -1,9 +1,8 @@
-export default function loginUser(email, password, setUser, router) {
-    console.log(email);
-    console.log(password);
+export default async function loginUser(email, password, setUser, router) {
+    let dataHolder = []
 
     try {
-        const response = fetch(`http://localhost:9000/store/auth`, {
+        const response = await fetch(`http://localhost:9000/store/auth`, {
             method: "POST",
             credentials: "include",
             headers: {
@@ -16,12 +15,17 @@ export default function loginUser(email, password, setUser, router) {
         }).then((res) => res.json())
             .then((data) => {
                 console.log(data);
+
                 if (data.customer) {
                     setUser(data.customer);
+
                     router.push("/products");
+
                 }
 
             });
+        return true;
+
     }
     catch (err) {
         console.log(err);

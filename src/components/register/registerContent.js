@@ -3,13 +3,16 @@ import useAuthStore from '../../../store/userStore';
 import { useCreateCustomer } from "medusa-react";
 import registerUser from '../../utils/register';
 import { useRouter } from 'next/router';
+import { AiOutlineLoading } from 'react-icons/ai';
+import loginUser from '../../utils/loginUser';
 
 
-function RegisterContent() {
+function RegisterContent({ setIsOpen }) {
 
   const { user, setUser } = useAuthStore();
   const createCustomer = useCreateCustomer();
   const router = useRouter();
+  const [loading, setLoading] = React.useState(false);
 
 
 
@@ -24,14 +27,33 @@ function RegisterContent() {
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
-
-  function handleRegister() {
+  async function handleRegister() {
     if (user) return null;
     if (form.firstName === '' || form.lastName === '' || form.email === '' || form.password === '') return null;
 
-    registerUser(createCustomer, form, setUser, router);
+    const register = await registerUser(createCustomer, form, setUser, router, setIsOpen);
+    console.log(register);
 
+    if (register) {
+      setLoading(true);
+
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      const login = await loginUser(form.email, form.password, setUser, router);
+
+      if (login) {
+        console.log(user);
+        setLoading(false);
+        setIsOpen(false);
+      }
+    }
   }
+
+
+
+
+
+
 
 
 
@@ -83,12 +105,22 @@ function RegisterContent() {
           />
         </div>
 
+        {loading ? (
+          <button
+            onClick={() => handleRegister()}
+            className='bg-black mt-6 text-white font-primary font-bold uppercase antialiased tracking-wide text-sm py-4'>
+            <AiOutlineLoading
+              className='animate-spin transition-all duration-75 ' size={24} />
+          </button>)
+          : (
+            <button
+              onClick={() => handleRegister()}
+              className='bg-black mt-6 text-white font-primary font-bold uppercase antialiased tracking-wide text-sm py-4'>
+              Sign up
+            </button>
+          )
+        }
 
-        <button
-          onClick={() => handleRegister()}
-          className='bg-black mt-6 text-white font-primary font-bold uppercase antialiased tracking-wide text-sm py-4'>
-          Sign up
-        </button>
 
       </div>
     </>

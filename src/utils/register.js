@@ -1,16 +1,19 @@
 import loginUser from "./loginUser";
 
-export default function registerUser(createCustomer, formm, setUser, router) {
+export default async function registerUser(createCustomer, formm, setUser, router, setIsOpen) {
 
     try {
-        const user = createCustomer.mutate({
+        const user = await createCustomer.mutate({
             first_name: formm.firstName,
             last_name: formm.lastName,
             email: formm.email,
             password: formm.password,
         });
+
         console.log('registereds');
-        loginUser(formm.email, formm.password, setUser, router);
+
+        // setIsOpen(false);
+        return true;
 
     }
     catch (err) {

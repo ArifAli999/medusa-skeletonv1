@@ -15,7 +15,6 @@ function AppHeader() {
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
-  console.log(cart)
 
     return (
         <nav className="header">
@@ -59,11 +58,11 @@ function AppHeader() {
             </div>
         {isRegisterModalOpen && (
           <MyModal isOpen={isRegisterModalOpen} setIsOpen={setIsRegisterModalOpen}
-            title={'join us now'} content={<RegisterContent />} />
+            title={'join us now'} content={<RegisterContent setIsOpen={setIsRegisterModalOpen} />} />
         )}
         {isLoginModalOpen && (
           <MyModal isOpen={isLoginModalOpen} setIsOpen={setIsLoginModalOpen}
-            title={'login'} content={<LoginContent />} />
+            title={'login'} content={<LoginContent setIsOpen={setIsLoginModalOpen} />} />
         )}
 
         </nav>

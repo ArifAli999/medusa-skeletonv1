@@ -1,6 +1,6 @@
 export default function logOut(router, setUser) {
     try {
-        fetch(`<BACKEND_URL>/store/auth`, {
+        fetch(`http://localhost:9000/store/auth`, {
             method: "DELETE",
             credentials: "include",
         })
