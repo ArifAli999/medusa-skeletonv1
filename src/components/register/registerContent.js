@@ -12,7 +12,7 @@ function RegisterContent({ setIsOpen }) {
   const { user, setUser } = useAuthStore();
   const createCustomer = useCreateCustomer();
   const router = useRouter();
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = React.useState(true);
 
 
 
@@ -108,7 +108,7 @@ function RegisterContent({ setIsOpen }) {
         {loading ? (
           <button
             onClick={() => handleRegister()}
-            className='bg-black mt-6 text-white font-primary font-bold uppercase antialiased tracking-wide text-sm py-4'>
+            className='bg-black/70 mt-6 text-white font-primary flex items-end justify-center font-bold uppercase antialiased tracking-wide text-sm py-4'>
             <AiOutlineLoading
               className='animate-spin transition-all duration-75 ' size={24} />
           </button>)

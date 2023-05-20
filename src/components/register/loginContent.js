@@ -4,6 +4,7 @@ import { useCreateCustomer } from "medusa-react";
 import registerUser from '../../utils/register';
 import { useRouter } from 'next/router';
 import loginUser from '../../utils/loginUser';
+import { AiOutlineLoading } from 'react-icons/ai';
 
 
 function LoginContent({ setIsOpen }) {
@@ -11,6 +12,7 @@ function LoginContent({ setIsOpen }) {
     const { user, setUser } = useAuthStore();
     const createCustomer = useCreateCustomer();
     const router = useRouter();
+    const [loading, setLoading] = React.useState(false);
 
 
 
@@ -24,11 +26,18 @@ function LoginContent({ setIsOpen }) {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
 
-    function handleLogin() {
+    async function handleLogin() {
         if (user) return null;
         if (form.email === '' || form.password === '') return null;
-        loginUser(form.email, form.password, setUser, router);
-        setIsOpen(false);
+        setLoading(true);
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        const login = await loginUser(form.email, form.password, setUser, router);
+        if (login) {
+            console.log(user);
+            setLoading(false);
+            setIsOpen(false);
+        }
+
     }
 
 
@@ -60,11 +69,21 @@ function LoginContent({ setIsOpen }) {
                 </div>
 
 
-                <button
-                    onClick={() => handleLogin()}
-                    className='bg-black mt-6 text-white font-primary font-bold uppercase antialiased tracking-wide text-sm py-4'>
-                    Sign up
-                </button>
+                {loading ? (
+                    <button
+                        onClick={() => handleRegister()}
+                        className='bg-black/70 mt-6 text-white font-primary flex items-end justify-center font-bold uppercase antialiased tracking-wide text-sm py-4'>
+                        <AiOutlineLoading
+                            className='animate-spin transition-all duration-75 ' size={24} />
+                    </button>)
+                    : (
+                        <button
+                            onClick={() => handleLogin()}
+                            className='bg-black mt-6 text-white font-primary font-bold uppercase antialiased tracking-wide text-sm py-4'>
+                            login
+                        </button>
+                    )
+                }
 
             </div>
         </>

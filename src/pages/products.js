@@ -1,7 +1,7 @@
 import React from 'react';
 import { useProducts } from "medusa-react";
 import ProductBox from '../components/products/productBox';
-import Header from '../components/header/AppHeader';
+import AppHeader from '../components/header/AppHeader';
 
 function products() {
   const { products, isLoading } = useProducts({});
@@ -12,7 +12,7 @@ function products() {
   return (
     <main className="mainContainer">
 
-      <Header />
+      <AppHeader />
 
 
       <div className='flex gap-10 flex-wrap mx-auto items-center justify-center'>

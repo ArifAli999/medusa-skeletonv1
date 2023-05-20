@@ -17,43 +17,41 @@ function AppHeader() {
 
 
     return (
-        <nav className="header">
+      <div className="flex items-center justify-between">
             <div className='header__logo'>
                 <h1 className='text-mb'><a href='/products' >
                     <AiOutlineHome size={28} color='black' />
                 </a></h1>
             </div>
-            <div className='header__links'>
+        <div className='flex gap-4 items-center'>
 
-          {user ? (
-            <a href='/profile' className='header__link'>
-              <AiOutlineUser size={28} color='black' />
-            </a>)
+
+          {user && user !== 'null' ? (
+            <div href='/profile' className=' relative'>
+              <AiOutlineUser size={34} color='black' />
+            </div>)
             : (
-              <>
-                <button href='' className='  font-primary font-bold text-xl text-primary'
+              <div className='flex items-center gap-4'>
+                <a className='bg-primary  px-4 py-2 cursor-pointer rounded-full font-primary  text-md text-white'
                   onClick={() => setIsRegisterModalOpen(true)}
                 >
-                  JOIN US
+                  join us
+                </a>
 
-                </button>
-
-                <button href='' className='font-primary font-bold text-lg text-primary'
+                <a className='border border-primary  px-3 py-1.5 cursor-pointer rounded-full font-primary  text-md text-primary'
                   onClick={() => setIsLoginModalOpen(true)}
                 >
-                  LOGIN
-
-                </button>
-
-              </>
+                  account
+                </a>
+              </div>
             )
-
           }
 
-                <a href='/cart' className='cart-indi'>
-                    <IoBagOutline size={28} color='black' />
-                    <span className='cart-no'>{cart?.items.length}</span>
-                </a>
+
+          <a href='/cart' className='cart-indi relative'>
+            <IoBagOutline size={34} color='black' />
+            <span className='cart-no '>{cart?.items.length}</span>
+          </a>
 
             </div>
         {isRegisterModalOpen && (
@@ -65,7 +63,7 @@ function AppHeader() {
             title={'login'} content={<LoginContent setIsOpen={setIsLoginModalOpen} />} />
         )}
 
-        </nav>
+      </div>
     );
 }
 
