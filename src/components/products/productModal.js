@@ -1,20 +1,37 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment, useEffect, useState } from 'react';
 import ListComponent from '../ui/ListBox';
+import { useRouter } from 'next/router';
+import { AiOutlineLoading } from 'react-icons/ai';
 
 
 export default function ProductModal({ isOpen, setIsOpen, product }) {
 
   const [size, setSize] = useState(null);
   const [color, setColor] = useState(null);
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     generateSizes();
-  }, []);
+    router.prefetch(`/${product.handle}`);
+  }, [product]);
 
 
 
-  function closeModal() {
+  async function closeModal() {
+    setIsLoading(true);
+    try {
+      await router.push(`/${product.handle}`);
+    } catch (error) {
+      // Handle any potential errors during the route push
+    } finally {
+      setIsLoading(false);
+      setIsOpen(false);
+    }
+  }
+
+  function justCloseModal() {
     setIsOpen(false);
   }
 
@@ -40,7 +57,7 @@ export default function ProductModal({ isOpen, setIsOpen, product }) {
     <>
 
       <Transition appear show={isOpen} as={Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={closeModal}>
+        <Dialog as="div" className="relative z-10" onClose={justCloseModal}>
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -83,8 +100,8 @@ export default function ProductModal({ isOpen, setIsOpen, product }) {
                       </h3>
 
                       <div className='text-black flex gap-4'>
-                        {color && color.map((c) => {
-                          const colorbg = c.toLowerCase();
+                        {color && color.length > 1 && color.map((c) => {
+                          const colorbg = c && c.toLowerCase();
                           return (
                             <button
                               key={c}
@@ -93,6 +110,8 @@ export default function ProductModal({ isOpen, setIsOpen, product }) {
                             />
                           );
                         })}
+
+
                       </div>
 
 
@@ -106,10 +125,10 @@ export default function ProductModal({ isOpen, setIsOpen, product }) {
                   <div className="mt-6">
                     <button
                       type="button"
-                      className="bg-primary w-full text-white py-2 ring-0 outline-none rounded-md font-primary font-light text-sm shadow shadow-black/20"
+                      className="bg-primary w-full text-white py-2 ring-0  flex items-center justify-center outline-none rounded-md font-primary text-center font-light text-sm shadow shadow-black/20"
                       onClick={closeModal}
                     >
-                      view product
+                      {isLoading ? <AiOutlineLoading className='animate-spin' size={24} color='white' /> : 'View Product'}
                     </button>
                   </div>
                 </Dialog.Panel>

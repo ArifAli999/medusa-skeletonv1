@@ -11,6 +11,7 @@ import addItem from "../utils/add-item";
 import AppHeader from "../components/header/AppHeader";
 import { AiOutlinePlus } from "react-icons/ai";
 import ListComponent from "../components/ui/ListBox";
+import { useRouter } from "next/router";
 
 
 const ProductPage = ({ product, regions }) => {
@@ -24,11 +25,11 @@ const ProductPage = ({ product, regions }) => {
   const { cart, isLoading } = useGetCart(cartId);
   const createLineItem = useCreateLineItem(cartId);
   const [featuredProds, setFeaturedProds] = useState([]);
-
-  //console.log(product)
-
-
+  const router = useRouter();
   const queryClient = useQueryClient();
+
+
+
 
 
 
@@ -43,7 +44,7 @@ const ProductPage = ({ product, regions }) => {
     });
     const filtered = products.filter(prod => prod.id !== product.id);
     setFeaturedProds(filtered);
-    console.log(products);
+   // console.log(products);
 
   }
 
@@ -52,6 +53,7 @@ const ProductPage = ({ product, regions }) => {
   useEffect(() => {
     generateSizes();
     fetchRelatedProducts();
+
   }, []);
 
 
@@ -95,7 +97,7 @@ const ProductPage = ({ product, regions }) => {
 
       console.log(variant)
       try {
-       // await addItem(createLineItem, cartId, variant, 1, cart);
+        await addItem(createLineItem, cartId, variant, 1, cart);
         queryClient.invalidateQueries();
       } catch (error) {
         console.log('Failed to add item to cart', error);
@@ -106,7 +108,7 @@ const ProductPage = ({ product, regions }) => {
     if (userSize && !userColor) {
       const variant = product.variants.find(variant => variant.title.trim() === userSize.trim());
       try {
-     //   await addItem(createLineItem, cartId, variant, 1, cart);
+        await addItem(createLineItem, cartId, variant, 1, cart);
         queryClient.invalidateQueries();
       } catch (error) {
         console.log('Failed to add item to cart', error);
@@ -121,6 +123,8 @@ const ProductPage = ({ product, regions }) => {
 
 
   if (isLoading) return <div>Loading...</div>;
+
+  if (product === undefined) return <div>Product not found</div>;
 
 
   return (

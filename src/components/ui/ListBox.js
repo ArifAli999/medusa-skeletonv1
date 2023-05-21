@@ -31,7 +31,7 @@ export default function ListComponent({ list, handleButtonClick, label }) {
                     >
                         <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-0 text-base shadow-lg ring-1 ring-orange-600 ring-opacity-5 focus:outline-none sm:text-sm">
                             {list && list.map((person, personIdx) => (
-                                console.log(person),
+
                                 <Listbox.Option
                                     key={personIdx}
                                     className={({ active }) =>

@@ -7,6 +7,7 @@ import useAuthStore from '../../../store/userStore';
 import MyModal from '../ui/ModalBox';
 import RegisterContent from '../register/registerContent';
 import LoginContent from '../register/loginContent';
+import { useRouter } from 'next/router';
 
 function AppHeader() {
     const { cartId } = useCartStore();
@@ -14,6 +15,7 @@ function AppHeader() {
   const { user } = useAuthStore();
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const router = useRouter();
 
 
     return (
@@ -27,7 +29,7 @@ function AppHeader() {
 
 
           {user && user !== 'null' ? (
-            <div href='/profile' className=' relative'>
+            <div href='/profile' className='cursor-pointer group  relative' onClick={() => router.push('/profile')}>
               <AiOutlineUser size={34} color='black' />
             </div>)
             : (
