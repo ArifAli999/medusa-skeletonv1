@@ -204,8 +204,8 @@ const ProductPage = ({ product, regions }) => {
               <h2 className="text-xl font-extralight font-secondary tracking-wide text-gray-700 underline underline-offset-2">explore</h2>
 
 
-            </div>
-          ))}
+              </div>
+            ))}
 
 
 

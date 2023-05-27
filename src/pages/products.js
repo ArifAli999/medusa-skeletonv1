@@ -8,7 +8,6 @@ function products() {
 
 
 
-
   return (
     <main className="mainContainer">
 

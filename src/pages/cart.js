@@ -1,15 +1,18 @@
 import React from 'react';
 import useCartStore from '../../store/userCart';
-import { useGetCart } from 'medusa-react';
+import { useDeleteLineItem, useGetCart } from 'medusa-react';
 import AppHeader from '../components/header/AppHeader';
 import { AiFillDelete, AiOutlineClose, AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
 import CartItem from '../components/cart/cartItem';
 import CartTotals from '../components/cart/cartTotals';
+import { useQueryClient } from 'react-query';
+import deleteItem from '../utils/delete-item';
 
 function UserCart() {
     const { cartId } = useCartStore();
     const { cart, isLoading } = useGetCart(cartId);
-    // console.log(cart);
+
+
 
     if (isLoading) {
         return <div>Loading...</div>;
@@ -70,7 +73,9 @@ function UserCart() {
 
 
                     {cart?.items.map((item, index) => (
-                        <CartItem item={item} generateOptions={generateOptions} key={item.id} />
+                        <CartItem item={item} generateOptions={generateOptions} key={item.id}
+
+                        />
                     ))}
 
 

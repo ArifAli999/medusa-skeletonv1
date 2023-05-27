@@ -1,7 +1,25 @@
 import React from 'react';
 import { AiFillDelete, AiOutlineClose, AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
+import { useDeleteLineItem } from "medusa-react";
+import useCartStore from '../../../store/userCart';
+import { useQueryClient } from 'react-query';
+import deleteItem from '../../utils/delete-item';
+
 
 function CartItem({ item, generateOptions }) {
+    const { cartId } = useCartStore();
+    const deleteLineItem = useDeleteLineItem(cartId);
+    const queryClient = useQueryClient();
+
+
+    async function handleDelete() {
+        await deleteItem(item.id, deleteLineItem);
+        queryClient.invalidateQueries();
+    }
+
+
+
+
     return (
         <div className='border border-gray-400 rounded items-center flex flex-row gap-2 '>
             <div className=' max-w-[40%] '>
@@ -37,7 +55,7 @@ function CartItem({ item, generateOptions }) {
                     <h3 className='text-black font-normal font-secondary text-base'>${item.unit_price / 100}</h3>
                 </div>
 
-                <div className='absolute top-0 p-2 cursor-pointer right-0'>
+                <div className='absolute top-0 p-2 cursor-pointer right-0' onClick={handleDelete}>
                     <AiOutlineClose color='black' size={22} />
                 </div>
 
