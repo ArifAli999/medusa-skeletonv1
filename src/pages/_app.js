@@ -6,6 +6,7 @@ import { ThemeProvider } from "theme-ui"
 import { ProductProvider } from "../context/product-context"
 import "../fonts/index.css"
 import theme from "../theme"
+import { Toaster } from "react-hot-toast";
 
 const BACKEND_URL =
   process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || "http://localhost:9000"
@@ -34,6 +35,7 @@ const App = ({ Component, pageProps }) => {
           </Head>
           <ProductProvider>
             <Component {...pageProps} />
+            <Toaster />
           </ProductProvider>
         </CartProvider>
       </MedusaProvider>

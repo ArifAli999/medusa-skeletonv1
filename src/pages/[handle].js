@@ -12,6 +12,7 @@ import AppHeader from "../components/header/AppHeader";
 import { AiOutlinePlus } from "react-icons/ai";
 import ListComponent from "../components/ui/ListBox";
 import { useRouter } from "next/router";
+import { toast } from "react-hot-toast";
 
 
 const ProductPage = ({ product, regions }) => {
@@ -99,6 +100,13 @@ const ProductPage = ({ product, regions }) => {
       try {
         await addItem(createLineItem, cartId, variant, 1, cart);
         queryClient.invalidateQueries();
+        toast('Added to cart', {
+          style: {
+            border: '2px solid orange',
+            background: 'black',
+            color: 'white',
+          },
+        });
       } catch (error) {
         console.log('Failed to add item to cart', error);
       }

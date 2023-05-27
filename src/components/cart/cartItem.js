@@ -4,6 +4,7 @@ import { useDeleteLineItem } from "medusa-react";
 import useCartStore from '../../../store/userCart';
 import { useQueryClient } from 'react-query';
 import deleteItem from '../../utils/delete-item';
+import { toast } from 'react-hot-toast';
 
 
 function CartItem({ item, generateOptions }) {
@@ -15,6 +16,13 @@ function CartItem({ item, generateOptions }) {
     async function handleDelete() {
         await deleteItem(item.id, deleteLineItem);
         queryClient.invalidateQueries();
+        toast('Item removed', {
+            style: {
+                border: '2px solid red',
+                background: 'black',
+                color: 'white',
+            },
+        });
     }
 
 
