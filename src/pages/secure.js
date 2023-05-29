@@ -10,6 +10,18 @@ function CheckoutContainer() {
         'payment details',
     ]);
     const [activeStep, setActiveStep] = useState('address details');
+    const [address, setAddress] = useState({
+        firstName: '',
+        lastName: '',
+        email: '',
+        company: '',
+        phone: '',
+        postCode: '',
+        city: '',
+        state: '',
+        country: '',
+        type: '',
+    });
 
 
 
@@ -39,7 +51,7 @@ function CheckoutContainer() {
                     ))}
                 </div>
 
-                {activeStep === 'address details' && <AddressStep />}
+                {activeStep === 'address details' && <AddressStep adress={address} setAddress={setAddress} setActiveStep={setActiveStep} />}
 
 
 
