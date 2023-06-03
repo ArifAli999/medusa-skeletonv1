@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import InputField from './ui/inputField';
 import ListComponent from '../ui/ListBox';
 import AdressListBox from './ui/AdressList';
@@ -12,12 +12,13 @@ function AddressStep({ adress, setAddress, setActiveStep }) {
         'Office',
         'Other',
     ]);
+    const [savedAdress, setSavedAdress] = React.useState();
+
+
+
+
 
     async function handlePageChange() {
-        // check if all fields are filled
-        // if not, return an error toast
-        // use zod to validate the form
-
         const parsedAdress = AddressSchema.cast({
             first_name: adress.firstName,
             last_name: adress.lastName,
@@ -31,15 +32,15 @@ function AddressStep({ adress, setAddress, setActiveStep }) {
             email: adress.email,
             phone: adress.phone,
         });
+        console.log(parsedAdress);
 
 
         try {
 
             const validationState = await AddressSchema.strict().validate(parsedAdress);
-
-            console.log(validationState);
-            toast.success('Address details saved');
-            setActiveStep('shipping details');
+            setActiveStep(1);
+            toast.success('address saved');
+            setSavedAdress(parsedAdress);
 
         }
         catch (err) {
@@ -49,7 +50,10 @@ function AddressStep({ adress, setAddress, setActiveStep }) {
     }
 
 
+
+
     return (
+
         <div className='flex mt-10 mb-6 p-4 flex-col gap-8 items-center'>
 
             <div className='flex flex-row gap-10 items-center'>
@@ -109,6 +113,8 @@ function AddressStep({ adress, setAddress, setActiveStep }) {
                 >
                     save and continue
                 </button>
+
+                {savedAdress?.first_name}
             </div>
 
         </div>

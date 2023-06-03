@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import AppHeader from '../components/header/AppHeader';
 import AddressStep from '../components/checkout/AddressStep';
+import ShippingStep from '../components/checkout/ShippingStep';
 
 function CheckoutContainer() {
 
@@ -9,7 +10,7 @@ function CheckoutContainer() {
         'shipping details',
         'payment details',
     ]);
-    const [activeStep, setActiveStep] = useState('address details');
+    const [activeStep, setActiveStep] = useState(0);
     const [address, setAddress] = useState({
         firstName: '',
         lastName: '',
@@ -41,9 +42,9 @@ function CheckoutContainer() {
                             key={index}
                         >
                             <h2
-                                className={`${activeStep === step ? 'text-2xl font-secondary text-black transition-all ease-linear duration-300 scale-105 hover:text-black/80' : 'text-2xl font-secondary text-gray-400 scale-100 hover:text-black/60 transition-all ease-linear duration-300'
+                                className={`${activeStep === index ? 'text-2xl font-secondary text-black transition-all ease-linear duration-300 scale-105 hover:text-black/80' : 'text-2xl font-secondary text-gray-400 scale-100 hover:text-black/60 transition-all ease-linear duration-300'
                                     }`}
-                                onClick={() => setActiveStep(step)}
+                                onClick={() => setActiveStep(index)}
                             >
                                 {step}
                             </h2>
@@ -51,9 +52,11 @@ function CheckoutContainer() {
                     ))}
                 </div>
 
-                {activeStep === 'address details' && <AddressStep adress={address} setAddress={setAddress} setActiveStep={setActiveStep} />}
+                {activeStep === 0 && <AddressStep adress={address} setAddress={setAddress} setActiveStep={setActiveStep} />}
 
+                {activeStep === 1 && <ShippingStep />}
 
+                {activeStep === 2 && <h1>payment details</h1>}
 
 
 
