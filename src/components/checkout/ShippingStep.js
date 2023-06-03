@@ -8,6 +8,7 @@ function ShippingStep() {
 
   const { cartId } = useCartStore();
   const { shipping_options, isLoading } = useCartShippingOptions(cartId);
+  const [selected, setSelected] = React.useState();
 
   if (isLoading) {
     return <div>loading...</div>;
@@ -16,12 +17,14 @@ function ShippingStep() {
   console.log(shipping_options);
   return (
 
-    <div className='flex mt-4 mb-4 items-center flex-col justify-center'>
+    <div className='flex mb-4 items-center flex-col justify-center'>
 
-      <div className='flex w-full h-full flex-col mt-10 gap-12 xl:p-10'>
+      <div className='flex  w-full mx-auto h-full flex-col  gap-12 '>
 
         {shipping_options && shipping_options.map((option) =>
-          <ShippingBoxes name={option.name} price={option.amount} id={option.id} />
+          <ShippingBoxes name={option.name} price={option.amount} id={option.id}
+            selected={selected} setSelected={setSelected}
+          />
         )}
 
       </div>

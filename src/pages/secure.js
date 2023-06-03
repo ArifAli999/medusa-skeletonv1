@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import AppHeader from '../components/header/AppHeader';
 import AddressStep from '../components/checkout/AddressStep';
 import ShippingStep from '../components/checkout/ShippingStep';
+import CartSummary from '../components/checkout/CartSummary';
 
 function CheckoutContainer() {
 
@@ -27,11 +28,11 @@ function CheckoutContainer() {
 
 
     return (
-        <main className="p-6">
+        <main className="p-6 overflow-hidden">
             <AppHeader />
 
 
-            <div className='flex w-full h-full p-4 flex-col'>
+            <div className='flex w-full h-full p-4 flex-col overflow-hidden'>
 
 
                 <div className='flex flex-row gap-14 items-center justify-center cursor-pointer'>
@@ -52,11 +53,24 @@ function CheckoutContainer() {
                     ))}
                 </div>
 
-                {activeStep === 0 && <AddressStep adress={address} setAddress={setAddress} setActiveStep={setActiveStep} />}
+                <div className='flex flex-row w-full h-full mt-10 gap-4'>
+                    <div className='flex flex-col gap-4 w-[70%] flex-1 h-full  transition-all ease-in-out duration-750'>
+                        {activeStep === 0 && <AddressStep adress={address} setAddress={setAddress} setActiveStep={setActiveStep} />}
 
-                {activeStep === 1 && <ShippingStep />}
+                        {activeStep === 1 && <ShippingStep />}
 
-                {activeStep === 2 && <h1>payment details</h1>}
+                        {activeStep === 2 && <h1>payment details</h1>}
+                    </div>
+
+
+
+                    <div className='flex flex-col gap-4 w-[30%] h-full'>
+                        <CartSummary />
+                    </div>
+
+
+                </div>
+
 
 
 

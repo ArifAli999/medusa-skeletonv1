@@ -17,8 +17,8 @@ export default function AdressListBox({ list, setAddress, adress }) {
         <div className=" min-w-70 w-[200px]">
             <Listbox value={selected} onChange={setSelected}>
                 <div className="relative mt-">
-                    <Listbox.Button className="relative w-full cursor-default rounded-lg border border-gray-300 px-6 py-2 mt-5 text-left shadow-md focus:outline-none focus-visible:border-orange-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
-                        <span className="block  font-primary text-black">{selected}</span>
+                    <Listbox.Button className="relative w-full cursor-default  border border-gray-300 px-6 py-2 mt-5 text-left focus:outline-none focus-visible:border-orange-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
+                        <span className="block  font-primary text-gray-400">{selected}</span>
                         <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                             <IoChevronDown
                                 className="h-5 w-5 text-white"

@@ -54,9 +54,10 @@ function AddressStep({ adress, setAddress, setActiveStep }) {
 
     return (
 
-        <div className='flex mt-10 mb-6 p-4 flex-col gap-8 items-center'>
+        <div className='flex overflow-hidden p-6 flex-col gap-0 items-center border border-gray-200 transition-all ease-in-out duration-750 '>
 
-            <div className='flex flex-row gap-10 items-center'>
+            <div className='flex   mx-auto w-full'>
+                <div className='flex flex-row items-center justify-center gap-8 w-full p-6'>
                 <InputField label={'first name *'} placeholder={'first name'}
                     value={adress.firstName}
                     onChange={(e) => setAddress({ ...adress, firstName: e.target.value })}
@@ -65,49 +66,71 @@ function AddressStep({ adress, setAddress, setActiveStep }) {
                     value={adress.lastName}
                     onChange={(e) => setAddress({ ...adress, lastName: e.target.value })}
                 />
-                <InputField label={'email *'} placeholder={'email'}
-                    value={adress.email}
-                    onChange={(e) => setAddress({ ...adress, email: e.target.value })}
-                />
+                </div>
             </div>
 
 
-            <div className='flex flex-row gap-10 items-center mt-10'>
-                <InputField label={'company'} placeholder={'company'}
-                    value={adress.company}
-                    onChange={(e) => setAddress({ ...adress, company: e.target.value })}
-                />
-                <InputField label={'phone *'} placeholder={'phone number'}
-                    value={adress.phone}
-                    onChange={(e) => setAddress({ ...adress, phone: e.target.value })}
-                />
-
-                <AdressListBox list={type} setAddress={setAddress} adress={adress} />
-
+            <div className='flex    mx-auto w-full'>
+                <div className='flex flex-row items-center justify-center gap-8 w-full p-6'>
+                    <InputField label={'email *'} placeholder={'email'}
+                        value={adress.email}
+                        onChange={(e) => setAddress({ ...adress, email: e.target.value })}
+                    />
+                    <InputField label={'phone *'} placeholder={'phone number'}
+                        value={adress.phone}
+                        onChange={(e) => setAddress({ ...adress, phone: e.target.value })}
+                    />
+                </div>
             </div>
 
-            <div className='flex flex-row gap-10 items-center mt-10'>
-                <InputField label={'post code *'} placeholder={'post code'}
-                    value={adress.postCode}
-                    onChange={(e) => setAddress({ ...adress, postCode: e.target.value })}
-                />
-                <InputField label={'city *'} placeholder={'city'}
-                    value={adress.city}
-                    onChange={(e) => setAddress({ ...adress, city: e.target.value })}
-                />
-                <InputField label={'state *'} placeholder={'state'}
-                    value={adress.state}
-                    onChange={(e) => setAddress({ ...adress, state: e.target.value })}
-                />
-                <InputField label={'country *'} placeholder={'country'}
-                    value={adress.country}
-                    onChange={(e) => setAddress({ ...adress, country: e.target.value })}
-                />
+            <div className='flex   mx-auto w-full'>
+                <div className='flex flex-row items-center justify-center gap-8 w-full p-6'>
+                    <InputField label={'company'} placeholder={'company'}
+                        value={adress.company}
+                        onChange={(e) => setAddress({ ...adress, company: e.target.value })}
+                    />
 
 
+                    <AdressListBox list={type} setAddress={setAddress} adress={adress} />
+                </div>
             </div>
 
-            <div className='flex flex-row gap-10 items-center mt-10'>
+            <div className='flex    mx-auto w-full'>
+                <div className='flex flex-row items-center justify-center gap-8 w-full p-6'>
+                    <InputField label={'post code *'} placeholder={'post code'}
+                        value={adress.postCode}
+                        onChange={(e) => setAddress({ ...adress, postCode: e.target.value })}
+                    />
+                    <InputField label={'city *'} placeholder={'city'}
+                        value={adress.city}
+                        onChange={(e) => setAddress({ ...adress, city: e.target.value })}
+                    />
+                </div>
+            </div>
+
+
+            <div className='flex    mx-auto w-full'>
+                <div className='flex flex-row items-center justify-center gap-8 w-full p-6'>
+                    <InputField label={'state *'} placeholder={'state'}
+                        value={adress.state}
+                        onChange={(e) => setAddress({ ...adress, state: e.target.value })}
+                    />
+                    <InputField label={'country *'} placeholder={'country'}
+                        value={adress.country}
+                        onChange={(e) => setAddress({ ...adress, country: e.target.value })}
+                    />
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+
+            <div className='flex flex-row gap-10 items-center mt-10 mb-4'>
                 <button className='bg-black rounded-full text-white px-6 py-4  font-primary font-light text-sm'
                     onClick={handlePageChange}
                 >
