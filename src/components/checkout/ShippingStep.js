@@ -1,6 +1,7 @@
 import React from 'react';
 import { useCartShippingOptions } from "medusa-react";
 import useCartStore from '../../../store/userCart';
+import ShippingBoxes from './ui/ShippingBoxes';
 
 
 function ShippingStep() {
@@ -15,14 +16,16 @@ function ShippingStep() {
   console.log(shipping_options);
   return (
 
-    <div className='flex mt-4 mb-4 items-center justify-center flex-col gap-10'>
-      <h2 className='text-2xl mt-6 font-secondary text-black transition-all ease-linear duration-300 scale-105 hover:text-black/80'>
-        select your preferred shipping method
-      </h2>
+    <div className='flex mt-4 mb-4 items-center flex-col justify-center'>
 
-      <div className='flex flex-col gap-4 mt-6 border border-black p-4 w-full h-full rounded'>
+      <div className='flex w-full h-full flex-col mt-10 gap-12 xl:p-10'>
+
+        {shipping_options && shipping_options.map((option) =>
+          <ShippingBoxes name={option.name} price={option.amount} id={option.id} />
+        )}
 
       </div>
+
     </div>
   );
 }
