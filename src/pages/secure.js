@@ -54,7 +54,7 @@ function CheckoutContainer() {
                 </div>
 
                 <div className='flex flex-row w-full h-full mt-10 gap-4'>
-                    <div className='flex flex-col gap-4 w-[70%] flex-1 h-full  transition-all ease-in-out duration-750'>
+                    <div className='flex flex-col gap-4 w-[70%] flex-1 h-full   transition-all ease-in-out duration-750'>
                         {activeStep === 0 && <AddressStep adress={address} setAddress={setAddress} setActiveStep={setActiveStep} />}
 
                         {activeStep === 1 && <ShippingStep />}

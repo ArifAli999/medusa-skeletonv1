@@ -17,7 +17,7 @@ function ShippingStep() {
   console.log(shipping_options);
   return (
 
-    <div className='flex mb-4 items-center flex-col justify-center'>
+    <div className='flex mb-4 items-center flex-col justify-between  h-full min-h-[600px]'>
 
       <div className='flex  w-full mx-auto h-full flex-col  gap-12 '>
 
@@ -27,6 +27,15 @@ function ShippingStep() {
           />
         )}
 
+      </div>
+
+
+      <div className='flex items-center w-full justify-center'>
+        <button className='bg-black rounded-full disabled:bg-gray-600 text-white px-6 py-4  font-primary font-light text-sm'
+          disabled={!selected}
+        >
+          save and continue
+        </button>
       </div>
 
     </div>
