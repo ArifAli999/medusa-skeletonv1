@@ -33,7 +33,7 @@ function ShippingStep({ shipping, setShipping, setActiveStep }) {
 
         {shipping_options && shipping_options.map((option) =>
           <ShippingBoxes name={option.name} price={option.amount} id={option.id}
-            selected={shipping} setSelected={setShipping}
+            selected={shipping} setSelected={setShipping} key={option.id}
           />
         )}
 

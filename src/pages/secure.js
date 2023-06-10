@@ -3,6 +3,7 @@ import AppHeader from '../components/header/AppHeader';
 import AddressStep from '../components/checkout/AddressStep';
 import ShippingStep from '../components/checkout/ShippingStep';
 import CartSummary from '../components/checkout/CartSummary';
+import Container from '../components/checkout/payment/StripeContainer';
 
 function CheckoutContainer() {
 
@@ -61,7 +62,7 @@ function CheckoutContainer() {
 
                         {activeStep === 1 && <ShippingStep shipping={shipping} setShipping={setShipping} setActiveStep={setActiveStep} />}
 
-                        {activeStep === 2 && <h1>payment details</h1>}
+                        {activeStep === 2 && <Container />}
                     </div>
 
 
