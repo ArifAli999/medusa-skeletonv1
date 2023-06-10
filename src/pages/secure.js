@@ -24,6 +24,8 @@ function CheckoutContainer() {
         country: '',
         type: '',
     });
+    const [shipping, setShipping] = useState();
+    const [payment, setPayment] = useState();
 
 
 
@@ -57,7 +59,7 @@ function CheckoutContainer() {
                     <div className='flex flex-col gap-4 w-[70%] flex-1 h-full   transition-all ease-in-out duration-750'>
                         {activeStep === 0 && <AddressStep adress={address} setAddress={setAddress} setActiveStep={setActiveStep} />}
 
-                        {activeStep === 1 && <ShippingStep />}
+                        {activeStep === 1 && <ShippingStep shipping={shipping} setShipping={setShipping} setActiveStep={setActiveStep} />}
 
                         {activeStep === 2 && <h1>payment details</h1>}
                     </div>

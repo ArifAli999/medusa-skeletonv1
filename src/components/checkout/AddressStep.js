@@ -4,6 +4,7 @@ import ListComponent from '../ui/ListBox';
 import AdressListBox from './ui/AdressList';
 import { AddressSchema } from '../../utils/validator';
 import { toast } from 'react-hot-toast';
+import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 
 function AddressStep({ adress, setAddress, setActiveStep }) {
 
@@ -13,6 +14,7 @@ function AddressStep({ adress, setAddress, setActiveStep }) {
         'Other',
     ]);
     const [savedAdress, setSavedAdress] = React.useState();
+    const [loading, setLoading] = React.useState(false);
 
 
 
@@ -38,6 +40,10 @@ function AddressStep({ adress, setAddress, setActiveStep }) {
         try {
 
             const validationState = await AddressSchema.strict().validate(parsedAdress);
+            // add a timeout to simulate a server call
+            setLoading(true);
+            await new Promise((resolve) => setTimeout(resolve, 1000));
+            setLoading(false);
             setActiveStep(1);
             toast.success('address saved');
             setSavedAdress(parsedAdress);
@@ -131,10 +137,13 @@ function AddressStep({ adress, setAddress, setActiveStep }) {
 
 
             <div className='flex flex-row gap-10 items-center mt-10 mb-4'>
-                <button className='bg-black rounded-full text-white px-6 py-4  font-primary font-light text-sm'
+                <button className='bg-black rounded-full text-white px-6 py-4  font-primary font-light text-sm
+                hover:bg-gray-800 transition-all duration-100 ease-in-out
+                disabled:opacity-50 disabled:cursor-not-allowed'
                     onClick={handlePageChange}
+                    disabled={loading}
                 >
-                    save and continue
+                    {loading ? <AiOutlineLoading3Quarters className='animate-spin transition-all duration-100' /> : 'save and continue'}
                 </button>
 
                 {savedAdress?.first_name}
