@@ -15,9 +15,11 @@ export default function Container() {
     const { cartId } = useCartStore();
     const { cart, isLoading } = useGetCart(cartId);
 
+
+
     useEffect(() => {
         cart &&
-            client.carts.createPaymentSessions(cart.id)
+            client.carts.createPaymentSessions(cartId)
                 .then(({ cart }) => {
                     // check if stripe is selected
                     const isStripeAvailable = cart.payment_sessions?.some(
@@ -33,20 +35,43 @@ export default function Container() {
                     client.carts.setPaymentSession(cart.id, {
                         processor_id: "stripe",
                     }).then(({ cart }) => {
+
                         setClientSecret(cart && cart.payment_session.data.client_secret);
-                        console.log(cart.payment_session.data.client_secret);
                     });
                 });
     }, []);
 
 
+    async function saveAddress() {
+        client.carts.update(cartId, {
+            shipping_address: {
+                company: 'company',
+                first_name: 'Ali',
+                last_name: 'Arif',
+                address_1: '9 Union Studios',
+                address_2: '2 Union St',
+                city: 'Newcastle',
+                country_code: 'ar',
+                postal_code: 'NE21BX',
+                province: 'Newcastle',
+                phone: '07774366098',
+            },
+        })
+            .then(({ cart }) => {
+                console.log(cart.shipping_address);
+            });
+    }
+
+    console.log(cart);
     return (
         <div>
             <h2>
 
                 payment
             </h2>
-            {cart.payment_session.data.client_secret && (
+
+            <button onClick={saveAddress}>save address</button>
+            {cart && cart?.payment_session?.data?.client_secret && (
                 <Elements stripe={stripePromise} options={{
                     clientSecret: cart.payment_session.data.client_secret,
                 }}>

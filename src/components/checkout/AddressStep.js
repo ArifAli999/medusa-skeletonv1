@@ -5,6 +5,9 @@ import AdressListBox from './ui/AdressList';
 import { AddressSchema } from '../../utils/validator';
 import { toast } from 'react-hot-toast';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
+import addShippingAddress from '../../utils/addShippingAddress';
+import { useCart } from "medusa-react"
+
 
 function AddressStep({ adress, setAddress, setActiveStep }) {
 
@@ -15,6 +18,7 @@ function AddressStep({ adress, setAddress, setActiveStep }) {
     ]);
     const [savedAdress, setSavedAdress] = React.useState();
     const [loading, setLoading] = React.useState(false);
+    const { cart, updateCart, totalItems } = useCart();
 
 
 
