@@ -42,25 +42,6 @@ export default function Container() {
     }, []);
 
 
-    async function saveAddress() {
-        client.carts.update(cartId, {
-            shipping_address: {
-                company: 'company',
-                first_name: 'Ali',
-                last_name: 'Arif',
-                address_1: '9 Union Studios',
-                address_2: '2 Union St',
-                city: 'Newcastle',
-                country_code: 'ar',
-                postal_code: 'NE21BX',
-                province: 'Newcastle',
-                phone: '07774366098',
-            },
-        })
-            .then(({ cart }) => {
-                console.log(cart.shipping_address);
-            });
-    }
 
     console.log(cart);
     return (
@@ -70,7 +51,6 @@ export default function Container() {
                 payment
             </h2>
 
-            <button onClick={saveAddress}>save address</button>
             {cart && cart?.payment_session?.data?.client_secret && (
                 <Elements stripe={stripePromise} options={{
                     clientSecret: cart.payment_session.data.client_secret,

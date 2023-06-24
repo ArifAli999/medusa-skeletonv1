@@ -1,8 +1,9 @@
 import React from 'react';
-import { useCartShippingOptions } from "medusa-react";
+import { useCartShippingOptions, useGetCart } from "medusa-react";
 import useCartStore from '../../../store/userCart';
 import ShippingBoxes from './ui/ShippingBoxes';
 import { toast } from 'react-hot-toast';
+import { useAddShippingMethodToCart } from "medusa-react"
 
 
 function ShippingStep({ shipping, setShipping, setActiveStep }) {
@@ -11,10 +12,14 @@ function ShippingStep({ shipping, setShipping, setActiveStep }) {
   const { shipping_options, isLoading } = useCartShippingOptions(cartId);
   const [selected, setSelected] = React.useState();
   const [loading, setLoading] = React.useState(false);
+  const { cart } = useGetCart(cartId);
+  const addShippingMethod = useAddShippingMethodToCart(cartId)
 
   if (isLoading) {
     return <div>loading...</div>;
   }
+
+  console.log(cart);
 
   async function handleShippingChange() {
     setLoading(true);
@@ -33,7 +38,7 @@ function ShippingStep({ shipping, setShipping, setActiveStep }) {
 
         {shipping_options && shipping_options.map((option) =>
           <ShippingBoxes name={option.name} price={option.amount} id={option.id}
-            selected={shipping} setSelected={setShipping} key={option.id}
+            selected={shipping} setSelected={setShipping} key={option.id} cartId={cartId}
           />
         )}
 

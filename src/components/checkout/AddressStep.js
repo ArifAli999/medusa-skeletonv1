@@ -51,6 +51,7 @@ function AddressStep({ adress, setAddress, setActiveStep }) {
             setActiveStep(1);
             toast.success('address saved');
             setSavedAdress(parsedAdress);
+           // addShippingAddress(updateCart, parsedAdress);
 
         }
         catch (err) {

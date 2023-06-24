@@ -1,13 +1,21 @@
 import React from 'react';
 import { MdOutlineLocalShipping } from 'react-icons/md';
+import { useAddShippingMethodToCart } from "medusa-react";
 
 
-function ShippingBoxes({ name, price, id, selected, setSelected }) {
+function ShippingBoxes({ name, price, id, selected, setSelected, cartId }) {
+
+    const addShippingMethod = useAddShippingMethodToCart(cartId)
+
+
     const calculatedPrice = price / 100;
 
     const handleSelect = () => {
         console.log('selected');
         setSelected(id);
+        addShippingMethod.mutate({
+            option_id: id,
+        });
     };
     // help me write a tailwind conditional class
 
